@@ -17,9 +17,13 @@ module.exports = {
 
 
   fn: async function (inputs, exits) {
+    // TODO: Come back and only fetch things that the current user can see
+    const things = await Thing.find()
 
     // Respond with view.
-    return exits.success();
+    return exits.success({
+      things,
+    });
 
   }
 
