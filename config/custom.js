@@ -60,10 +60,10 @@ module.exports.custom = {
 
   // The sender that all outgoing emails will appear to come from.
   fromEmailAddress: 'noreply@example.com',
-  fromName: 'The NEW_APP_NAME Team',
+  fromName: 'The Ration Team',
 
   // Email address for receiving support messages & other correspondences.
-  internalEmailAddress: 'support+development@example.com',
+  internalEmailAddress: 'velizfabianhoracio@gmail.com',
 
   // Whether to require proof of email address ownership any time a new user
   // signs up, or when an existing user attempts to change their email address.
