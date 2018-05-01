@@ -21,8 +21,13 @@ parasails.registerPage('available-things', {
   //  ║║║║ ║ ║╣ ╠╦╝╠═╣║   ║ ║║ ║║║║╚═╗
   //  ╩╝╚╝ ╩ ╚═╝╩╚═╩ ╩╚═╝ ╩ ╩╚═╝╝╚╝╚═╝
   methods: {
-    clickThing: function(thingId) {
-      console.log(thingId);
+    clickThing: async function(id) {
+      console.log(`Click on the 'thing' with ID: ${id}`);
+      await Cloud.destroyOneThing.with({ id });
+      _.remove(this.things, { id });
+      // We have to update this manually, because Vue does not detect
+      // changes made by lodash.
+      this.$forceUpdate();
     }
   }
 });
