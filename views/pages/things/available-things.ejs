@@ -6,7 +6,26 @@
 
   <ul>
     <li v-for="thing in things"
-        @click="clickThing(thing.id)">{{thing.label}}</li>
+        class="thing">
+      <h2>{{thing.label}}</h2>
+      <span>{{thing.owner.fullName}}</span>
+
+      <i @click="clickRemoveThing(thing)" class="thing-delete">X</i>
+    </li>
   </ul>
+
+  <% /* "Confirm delete thing" modal */ %>
+  <modal v-if="confirmDeleteThingModalOpen">
+    <h1>Remove item</h1>
+    <p>
+      Are you sure that you want to delete the
+      <strong> {{thingToDelete.label}}</strong>
+      ?
+    </p>
+    <div>
+      <button type="button" @click="clickCancelAction()">Nevermind</button>
+      <button type="button" @click="clickConfirmAction()">Remove</button>
+    </div>
+  </modal>
 </div>
 <%- /* Expose server-rendered data as window.SAILS_LOCALS :: */ exposeLocalsToBrowser() %>

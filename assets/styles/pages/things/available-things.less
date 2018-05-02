@@ -1,5 +1,18 @@
 #available-things {
+  .thing {
+    position: relative;
 
-  //…
+    &-delete {
+      position: absolute;
+      top: 0;
+      right: 0;
+      display: none;
+      cursor: pointer;
+      color: red;
+    }
 
+    &:hover .thing-delete {
+      display: block
+    }
+  }
 }
