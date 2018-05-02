@@ -17,9 +17,14 @@ module.exports = {
 
 
   fn: async function (inputs, exits) {
-    // TODO: Come back and only fetch things that the current user can see
+    const friends = await User.findOne(this.req.me.id).populate('friends').friends;
+    const friendIds = _.pluck(friends, 'id');
+
     const things = await Thing.find({
-      owner: this.req.me.id
+      or: [
+        { owner: this.req.me.id },
+        { owner: { in: friendIds } }
+      ]
     });
 
     // Respond with view.
