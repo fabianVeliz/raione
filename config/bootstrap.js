@@ -15,7 +15,7 @@ module.exports.bootstrap = async function(done) {
   var path = require('path');
 
   // This bootstrap version indicates what version of fake data we're dealing with here.
-  var HARD_CODED_DATA_VERSION = 2;
+  var HARD_CODED_DATA_VERSION = 3;
 
   // This path indicates where to store/look for the JSON file that tracks the "last run bootstrap info"
   // locally on this development computer (if we happen to be on a development computer).
@@ -59,19 +59,42 @@ module.exports.bootstrap = async function(done) {
   }//∞
 
   // By convention, this is a good place to set up fake data during development.
-  const users = await User.createEach([
-    { emailAddress: 'admin@example.com', fullName: 'Ryan Dahl', isSuperAdmin: true, password: await sails.helpers.passwords.hashPassword('abc123') },
-    { emailAddress: 'admin2@example.com', fullName: 'Ryan Dahl 2', isSuperAdmin: true, password: await sails.helpers.passwords.hashPassword('123123123') },
-  ]).fetch();
+  const ryanDahl = await User.create({
+    emailAddress: 'admin@example.com',
+    fullName: 'Ryan Dahl',
+    isSuperAdmin: true,
+    password: await sails.helpers.passwords.hashPassword('abc123')
+  }).fetch();
+
+  const fabianVeliz = await User.create({
+    emailAddress: 'fabian@example.com',
+    fullName: 'Fabián Veliz',
+    isSuperAdmin: false,
+    password: await sails.helpers.passwords.hashPassword('123123123')
+  }).fetch();
+
+  const marcoCooper = await User.create({
+    emailAddress: 'marco@example.com',
+    fullName: 'Marco Cooper',
+    isSuperAdmin: false,
+    password: await sails.helpers.passwords.hashPassword('abc123')
+  }).fetch();
 
   await Thing.createEach([
-    { owner: users[0].id, label: 'Laptop' },
-    { owner: users[0].id, label: 'Hacking the coding interview book' },
-    { owner: users[1].id, label: 'Nokia 1100 :D' },
-    { owner: users[1].id, label: 'Bicycle' },
-    { owner: users[1].id, label: 'A pair of boots' },
-    { owner: users[1].id, label: 'Cell phone charger' }
+    { owner: ryanDahl.id, label: 'Laptop' },
+    { owner: ryanDahl.id, label: 'Hacking the coding interview book' },
+    { owner: fabianVeliz.id, label: 'Rad mountain bike' },
+    { owner: fabianVeliz.id, label: 'Bicycle' },
+    { owner: fabianVeliz.id, label: 'This Kenny G album' },
+    { owner: fabianVeliz.id, label: 'Cell phone charger' }
   ]);
+
+  // Making some friends
+  await User.addToCollection(fabianVeliz.id, 'friends', [
+    ryanDahl.id,
+    marcoCooper.id,
+  ]);
+  await User.addToCollection(ryanDahl.id, 'friends', fabianVeliz.id);
 
   // Save new bootstrap version
   await sails.helpers.fs.writeJson.with({
