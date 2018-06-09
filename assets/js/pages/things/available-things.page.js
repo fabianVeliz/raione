@@ -5,7 +5,11 @@ parasails.registerPage('available-things', {
   data: {
     things: [],
     confirmDeleteThingModalOpen: false,
-    thingToDelete: null,
+    selectedThing: null,
+    // Loading state
+    syncing: false,
+    // Aerver error state
+    cloudError: ''
   },
 
   //  ╦  ╦╔═╗╔═╗╔═╗╦ ╦╔═╗╦  ╔═╗
@@ -23,31 +27,30 @@ parasails.registerPage('available-things', {
   //  ║║║║ ║ ║╣ ╠╦╝╠═╣║   ║ ║║ ║║║║╚═╗
   //  ╩╝╚╝ ╩ ╚═╝╩╚═╩ ╩╚═╝ ╩ ╩╚═╝╝╚╝╚═╝
   methods: {
-    clickRemoveThing: function(thing) {
+    clickDeleteThing: function(thing) {
       this.confirmDeleteThingModalOpen = true;
-      this.thingToDelete = thing;
+      this.selectedThing = thing;
     },
 
-    clickCancelAction: function() {
+    closeDeleteThingModal: function() {
       this.confirmDeleteThingModalOpen = false;
-      this.thingToDelete = null;
+      this.selectedThing = null;
     },
 
-    clickConfirmAction: async function() {
-      const id = this.thingToDelete && this.thingToDelete.id;
-
-      if (!id) {
-        throw new Error('The thing id is missing.');
+    handleParsingDeleteThingForm: function() {
+      return {
+        id: this.selectedThing.id
       }
+    },
 
-      this.confirmDeleteThingModalOpen = false;
-      this.thingToDelete = null;
-
-      await Cloud.destroyOneThing.with({ id });
-      _.remove(this.things, { id });
+    submittedDeleteThingForm: function() {
+      _.remove(this.things, { id: this.selectedThing.id });
       // We have to update this manually, because Vue does not detect
       // changes made by lodash.
       this.$forceUpdate();
-    },
+
+      this.confirmDeleteThingModalOpen = false;
+      this.selectedThing = null
+    }
   }
 });
