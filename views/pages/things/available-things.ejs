@@ -7,6 +7,8 @@
   <ul>
     <li v-for="thing in things"
         class="thing">
+      <img :src="thing.imageSrc" alt="Thing image"
+           width="150" height="150">
       <h2>{{thing.label}}</h2>
       <span>{{thing.owner.fullName}}</span>
 
