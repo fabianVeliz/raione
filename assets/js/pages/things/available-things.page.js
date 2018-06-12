@@ -96,7 +96,8 @@ parasails.registerPage('available-things', {
         owner: {
           id: this.me.id,
           fullName: this.me.fullName
-        }
+        },
+        imageSrc: result.imageSrc
       })
       this._clearAddThingModal();
     },

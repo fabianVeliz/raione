@@ -37,7 +37,7 @@ module.exports = {
       throw 'notFound';
     }
 
-    const friends = User.findOne({ id: this.req.me.id }).populate('friends');
+    const friends = await User.findOne({ id: this.req.me.id }).populate('friends');
 
     if (this.req.me.id !== thing.owner && !_.any(friends, { id: thing.owner.id })) {
       throw 'forbidden';
