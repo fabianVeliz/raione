@@ -5,11 +5,18 @@ parasails.registerPage('available-things', {
   data: {
     things: [],
     confirmDeleteThingModalOpen: false,
+    uploadThingModalOpen: false,
+    uploadFormData: {
+      label: '',
+      photo: null
+    },
     selectedThing: null,
     // Loading state
     syncing: false,
-    // Aerver error state
-    cloudError: ''
+    // Server error state
+    cloudError: '',
+    // Form errors
+    formErrors: {}
   },
 
   //  ╦  ╦╔═╗╔═╗╔═╗╦ ╦╔═╗╦  ╔═╗
@@ -51,6 +58,56 @@ parasails.registerPage('available-things', {
 
       this.confirmDeleteThingModalOpen = false;
       this.selectedThing = null
+    },
+
+    _clearAddThingModal: function() {
+      this.uploadThingModalOpen = false;
+      this.uploadFormData = {
+        label: '',
+        photo: null
+      };
+      this.formErrors = {};
+      this.cloudError = '';
+    },
+
+    clickAddThing: function() {
+      this.uploadThingModalOpen = true;
+    },
+
+    closeAddThingModal: function () {
+      this._clearAddThingModal();
+    },
+
+    handleParsingAddThingForm: function() {
+      this.formErrors = {};
+      var argins = this.uploadFormData;
+
+      if (Object.keys(this.formErrors).length > 0) {
+        return;
+      }
+
+      return argins;
+    },
+
+    submittedAddThingForm: function(result) {
+      this.things.push({
+        label: this.uploadFormData.label,
+        id: result.id,
+        owner: {
+          id: this.me.id,
+          fullName: this.me.fullName
+        }
+      })
+      this._clearAddThingModal();
+    },
+
+    changePhoto: function(files) {
+      const selectedFile = files[0];
+      if (!selectedFile) {
+        this.uploadFormData.photo = null;
+        return;
+      }
+      this.uploadFormData.photo = selectedFile;
     }
   }
 });

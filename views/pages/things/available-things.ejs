@@ -2,7 +2,7 @@
 
   <h1>Things</h1>
   <p>View available items to borrow, or upload your own things.</p>
-  <button>TODO</button>
+  <button @click="clickAddThing()">Add thing</button>
 
   <ul>
     <li v-for="thing in things"
@@ -13,6 +13,39 @@
       <i @click="clickDeleteThing(thing)" class="thing-delete">X</i>
     </li>
   </ul>
+
+  <% /* "Add a new thing" modal */ %>
+  <modal v-if="uploadThingModalOpen"
+         key="delete"
+         @close="closeAddThingModal()"
+  >
+    <ajax-form action="addOneThing" :syncing.sync="syncing" :cloud-error.sync="cloudError"
+               :handle-parsing="handleParsingAddThingForm" @submitted="submittedAddThingForm($event)">
+      <div class="modal-header">
+        <div class="modal-title">Add a new thing</div>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span>&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="photo">Photo</label>
+          <input type="file" class="form-control-file" :disabled="syncing"
+                 name="photo" id="photo" @change="changePhoto($event.target.files)">
+          <p v-if="!formErrors.photo">Make sure the item is front and center in the photo.</p>
+          <p v-if="formErrors.photo">Photo is required.</p>
+        </div>
+        <div class="form-group">
+          <label for="label">What is it?</label>
+          <input type="text" class="form-control" name="label" id="label" v-model="uploadFormData.label">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button data-dismiss="modal" class="btn btn-outline-secondary mr-1">Nevermind</button>
+        <button type="submit" class="btn btn-primary ml-1">Submit</button>
+      </div>
+    </ajax-form>
+  </modal>
 
   <% /* "Confirm delete thing" modal */ %>
   <modal v-if="confirmDeleteThingModalOpen && selectedThing"

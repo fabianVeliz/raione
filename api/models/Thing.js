@@ -19,6 +19,18 @@ module.exports = {
       description: 'A user-submitted label describing this thing'
     },
 
+    imageUploadFd: {
+      type: 'string',
+      description: 'Skipper file descriptor uniquely identifies this file',
+      required: true
+    },
+
+    imageUploadMime: {
+      type: 'string',
+      description: 'MIME type for uploaded file',
+      required: true
+    },
+
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
     //  ║╣ ║║║╠╩╗║╣  ║║╚═╗
     //  ╚═╝╩ ╩╚═╝╚═╝═╩╝╚═╝

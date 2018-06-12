@@ -53,8 +53,8 @@ module.exports.routes = {
   'POST  /api/v1/deliver-contact-form-message':          { action: 'deliver-contact-form-message' },
 
   'DELETE /api/v1/things/destroy-one-thing':             { action: 'things/destroy-one-thing' },
-
-
+  'POST   /api/v1/things/add-one-thing':                 { action: 'things/add-one-thing' },
+  'GET    /api/v1/things/:id':                           { action: 'things/download-photo' },
   //  ╦ ╦╔═╗╔╗ ╦ ╦╔═╗╔═╗╦╔═╔═╗
   //  ║║║║╣ ╠╩╗╠═╣║ ║║ ║╠╩╗╚═╗
   //  ╚╩╝╚═╝╚═╝╩ ╩╚═╝╚═╝╩ ╩╚═╝

@@ -80,14 +80,15 @@ module.exports.bootstrap = async function(done) {
     password: await sails.helpers.passwords.hashPassword('abc123')
   }).fetch();
 
-  await Thing.createEach([
-    { owner: ryanDahl.id, label: 'Laptop' },
-    { owner: ryanDahl.id, label: 'Hacking the coding interview book' },
-    { owner: fabianVeliz.id, label: 'Rad mountain bike' },
-    { owner: fabianVeliz.id, label: 'Bicycle' },
-    { owner: fabianVeliz.id, label: 'This Kenny G album' },
-    { owner: fabianVeliz.id, label: 'Cell phone charger' }
-  ]);
+  // TODO: Decide what to do with this.
+  // await Thing.createEach([
+  //   { owner: ryanDahl.id, label: 'Laptop' },
+  //   { owner: ryanDahl.id, label: 'Hacking the coding interview book' },
+  //   { owner: fabianVeliz.id, label: 'Rad mountain bike' },
+  //   { owner: fabianVeliz.id, label: 'Bicycle' },
+  //   { owner: fabianVeliz.id, label: 'This Kenny G album' },
+  //   { owner: fabianVeliz.id, label: 'Cell phone charger' }
+  // ]);
 
   // Making some friends
   await User.addToCollection(fabianVeliz.id, 'friends', [
